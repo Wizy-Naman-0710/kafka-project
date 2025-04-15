@@ -40,7 +40,8 @@ def upload_course_resources(course_id,resource_url,poster_username):
         cursor.exectute(f"INSERT INTO courses (course_id,resource_url,poster_username) values ('{course_id}','{resource_url}','{poster_username}')")
         conn.commit()
         return "Resource Added Successfully"
-    return "Error! Unable to Insert"
+    except:
+        return "Error! Unable to Insert"
 def get_course_resource(course_id):
     try:
         cursor.execute(f"Select resource_url FROM courses where course_id=?", (course_id,))
@@ -48,6 +49,7 @@ def get_course_resource(course_id):
         if not result:
             return "Error: No resources found for this course!"
         resource_urls = ",".join([row[0] for row in result])
+        print(resource_urls)
         return resource_urls
     except Exception as e:
         return f"Error: {str(e)}"

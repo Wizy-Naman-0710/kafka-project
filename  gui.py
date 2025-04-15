@@ -61,14 +61,18 @@ def open_dashboard(role):
     tk.Label(dashboard, text=f"Welcome, {role.capitalize()}!").pack(pady=10)
 
     if role == "student":
-        tk.Button(dashboard, text="Take Quiz", command=lambda: messagebox.showinfo("Quiz", "Quiz Feature")).pack()
-        tk.Button(dashboard, text="Rate Course", command=lambda: messagebox.showinfo("Rate", "Rating Feature")).pack()
+        # tk.Button(dashboard, text="Take Quiz", command=lambda: messagebox.showinfo("Quiz", "Quiz Feature")).pack()
+        # tk.Button(dashboard, text="Rate Course", command=lambda: messagebox.showinfo("Rate", "Rating Feature")).pack()
+        #Should have textbox for coourse id 
         tk.Button(dashboard, text="View Courses", command=lambda: messagebox.showinfo("Courses", "Course List")).pack()
+        tk.Button(dashboard,text="Get Course Resources",command=lambda:messagebox.showinfo("Resources","Get Course Resources")).pack()
+        
     elif role == "instructor":
-        tk.Button(dashboard, text="Add Quiz", command=lambda: messagebox.showinfo("Quiz", "Add Quiz Feature")).pack()
-        tk.Button(dashboard, text="Evaluate Quiz", command=lambda: messagebox.showinfo("Evaluate", "Evaluation Feature")).pack()
-        tk.Button(dashboard, text="Add Test", command=lambda: messagebox.showinfo("Test", "Add Test Feature")).pack()
-    
+        # tk.Button(dashboard, text="Add Quiz", command=lambda: messagebox.showinfo("Quiz", "Add Quiz Feature")).pack()
+        # tk.Button(dashboard, text="Evaluate Quiz", command=lambda: messagebox.showinfo("Evaluate", "Evaluation Feature")).pack()
+        # tk.Button(dashboard, text="Add Test", command=lambda: messagebox.showinfo("Test", "Add Test Feature")).pack()
+        #Should have textbox for coourse id and havbe to send poster_id and resource(url/pdf to be decided) along with it 
+        tk.Button(dashboard, text="Upload Course Resources", command=lambda: messagebox.showinfo("Resources", "Upload Course Resources")).pack()
     tk.Button(dashboard, text="Logout", command=lambda: [dashboard.destroy(), root.deiconify()]).pack()
 
 
