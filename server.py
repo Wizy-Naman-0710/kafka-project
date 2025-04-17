@@ -31,7 +31,7 @@ def register_user(role, username, password):
         cursor.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", 
                       (username, password, role))
         conn.commit()
-        return "Registration successful!"
+        return "Registration Successful"
     except sqlite3.IntegrityError:
         return "Error: Username already exists!"
 
@@ -44,7 +44,7 @@ def login_user(username, password):
         return f"Login successful {result[0]}"  # Returns role (student/instructor)
     return "Error: Invalid credentials"
 
-# Function to upload course resources (fixed SQL injection)
+# Function to upload course resources (fixed SQL injection my removing fstri8ngs and using these param queries)
 def upload_course_resources(course_id, resource_url, poster_username):
     try:
         cursor.execute("INSERT INTO courses (course_id, resource_url, poster_username) VALUES (?, ?, ?)", 
@@ -54,7 +54,7 @@ def upload_course_resources(course_id, resource_url, poster_username):
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Function to get course resources (fixed SQL injection)
+# Function to get course resources (fixed SQL injection my removing fstri8ngs and using these param queries)
 def get_course_resource(course_id):
     try:
         cursor.execute("SELECT resource_url FROM courses WHERE course_id=?", (course_id,))
