@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS courses (
 
 conn.commit()
 
-# Function to Register Users
+# Funcn Register Users
 def register_user(role, username, password):
     try:
         cursor.execute("INSERT INTO users (username, password, role) VALUES (?, ?, ?)", 
@@ -35,7 +35,7 @@ def register_user(role, username, password):
     except sqlite3.IntegrityError:
         return "Error: Username already exists!"
 
-# Function to Login Users
+# Funcn Login Users
 def login_user(username, password):
     cursor.execute("SELECT role FROM users WHERE username=? AND password=?", 
                    (username, password))
@@ -44,7 +44,7 @@ def login_user(username, password):
         return f"Login successful {result[0]}"  # Returns role (student/instructor)
     return "Error: Invalid credentials"
 
-# Function to upload course resources (fixed SQL injection my removing fstri8ngs and using these param queries)
+# Funcn upload course resources (fixed SQL injection my removing fstri8ngs and using these param queries)
 def upload_course_resources(course_id, resource_url, poster_username):
     try:
         cursor.execute("INSERT INTO courses (course_id, resource_url, poster_username) VALUES (?, ?, ?)", 
@@ -54,7 +54,7 @@ def upload_course_resources(course_id, resource_url, poster_username):
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Function to get course resources (fixed SQL injection my removing fstri8ngs and using these param queries)
+# Func get course resources (fixed SQL injection my removing fstri8ngs and using these param queries)
 def get_course_resource(course_id):
     try:
         cursor.execute("SELECT resource_url FROM courses WHERE course_id=?", (course_id,))
@@ -66,7 +66,7 @@ def get_course_resource(course_id):
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Function to get all courses
+# Func get all courses
 def get_all_courses():
     try:
         cursor.execute("SELECT DISTINCT course_id FROM courses")
@@ -77,7 +77,7 @@ def get_all_courses():
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Function to Handle Client Requests
+# Handle Client Requests
 def handle_client(client_socket):
     request = client_socket.recv(1024).decode()
     parts = request.split()
