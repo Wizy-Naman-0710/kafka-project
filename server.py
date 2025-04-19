@@ -1,6 +1,7 @@
 import sqlite3
 import socket
 import threading
+from kafka import KafkaConsumer, KafkaProducer
 
 conn = sqlite3.connect("lms.db", check_same_thread=False)
 cursor = conn.cursor()
@@ -77,9 +78,20 @@ def get_all_courses():
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Handle Client Requests
-def handle_client(client_socket):
-    request = client_socket.recv(1024).decode()
+consumer = KafkaConsumer(
+    'lms-topic',
+    bootstrap_servers='localhost:9092',
+    auto_offset_reset='earliest',
+    enable_auto_commit=True,
+    group_id='lms-group'
+)
+
+producer = KafkaProducer(bootstrap_servers='localhost:9092')
+
+print("Kafka consumer is running and listening to 'lms-topic'...")
+
+for message in consumer:
+    request = message.value.decode('utf-8')
     parts = request.split()
     
     if parts[0] == "REGISTER":
@@ -98,20 +110,10 @@ def handle_client(client_socket):
         response = upload_course_resources(course_id, resource_url, poster_username)
     else:
         response = "Invalid request!"
-        
-    client_socket.send(response.encode())
-    client_socket.close()
+    
+    print(f"Processed request: {request} | Response: {response}")
 
-# Start Server
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind(("0.0.0.0", 5000))
-server_socket.listen(5)
-print("Server is running on port 5000...")
-
-while True:
-    try:
-        client_sock, addr = server_socket.accept()
-        threading.Thread(target=handle_client, args=(client_sock,)).start()
-    except KeyboardInterrupt:
-        print("Shutting down server...")
-        break
+    # Send the response back to lms-responses topic
+    producer.send('lms-responses', response.encode('utf-8'))
+    producer.flush()  # Ensure the message is sent immediately
+    print(f"Response sent to lms-responses: {response}")
