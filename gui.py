@@ -344,7 +344,7 @@ def close_splash(splash, callback=None):
 root = tk.Tk()
 root.title("Learning Management System")
 root.geometry("400x350")
-
+root.configure(bg="#FFB347") 
 # Create Mario animation controller
 # Replace "mario.png" with the path to your image file
 mario = MarioAnimation(root, "mario.png")  # Use mario.png or mario.jpeg as needed
@@ -515,7 +515,6 @@ def get_resources():
         course_id = course_id_entry.get()
         if not course_id:
             messagebox.showerror("Error", "Please enter a Course ID!")
-            show_splash_image("you_shall_not_pass.png1", 2000)
             return
             
         response = client.send_request(f"GET_RESOURCES {course_id}")
@@ -523,7 +522,6 @@ def get_resources():
         result_text.delete(1.0, tk.END)
         if "Error" in response:
             result_text.insert(tk.END, response)
-            show_splash_image("you_shall_not_pass.png", 2000)
         else:
             resources = response.split("|")
             result_text.insert(tk.END, f"Resources for Course {course_id}:\n\n")
