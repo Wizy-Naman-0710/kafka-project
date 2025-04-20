@@ -142,7 +142,7 @@ root.geometry("400x350")
 root.configure(bg="#FFB347") 
 # Create Mario animation controller
 # Replace "mario.png" with the path to your image file
-mario = MarioAnimation(root, "mario.png")  # Use mario.png or mario.jpeg as needed
+mario = MarioAnimation(root, "static/mario.png")  # Use mario.png or mario.jpeg as needed
 
 # Create frames for different screens
 login_frame = tk.Frame(root)
@@ -194,7 +194,7 @@ def handle_login():
     
     if not username or not password:
         messagebox.showerror("Error", "Please enter both username and password!")
-        show_splash_image("you_shall_not_pass.png", 2000)
+        show_splash_image("static/you_shall_not_pass.png", 2000)
         return
         
     response = client.send_request(f"LOGIN {username} {password}")
@@ -205,12 +205,12 @@ def handle_login():
         
         # Show welcome image before switching to appropriate frame
         if current_user["role"] == "student":
-            show_splash_image("welcome.png", 2000, lambda: show_frame(student_frame))
+            show_splash_image("static/welcome.png", 2000, lambda: show_frame(student_frame))
         else:
-            show_splash_image("welcome.png", 2000, lambda: show_frame(instructor_frame))
+            show_splash_image("static/welcome.png", 2000, lambda: show_frame(instructor_frame))
     else:
         messagebox.showerror("Login Failed", response)
-        show_splash_image("you_shall_not_pass.png", 2000)
+        show_splash_image("static/you_shall_not_pass.png", 2000)
 
 tk.Button(login_frame, text="Login", command=handle_login).pack(pady=10)
 tk.Button(login_frame, text="Sign Up", command=lambda: show_frame(signup_frame)).pack(pady=5)
@@ -246,7 +246,7 @@ def handle_signup():
     
     if not username or not password:
         messagebox.showerror("Error", "Please enter all fields!")
-        show_splash_image("you_shall_not_pass.png", 2000)
+        show_splash_image("static/you_shall_not_pass.png", 2000)
         return
         
     response = client.send_request(f"REGISTER {role} {username} {password}")
@@ -370,7 +370,7 @@ def upload_resource():
         
         if not course_id or not resource_url:
             messagebox.showerror("Error", "Please enter all fields!")
-            show_splash_image("you_shall_not_pass.png", 2000)
+            show_splash_image("static/you_shall_not_pass.png", 2000)
             return
             
         response = client.send_request(f"UPLOAD_RESOURCE {course_id} {resource_url} {current_user['username']}")
@@ -379,7 +379,7 @@ def upload_resource():
         if "Added" in response:
             upload_window.destroy()
         else:
-            show_splash_image("you_shall_not_pass.png", 2000)
+            show_splash_image("static/you_shall_not_pass.png", 2000)
     
     tk.Button(upload_window, text="Upload", command=handle_upload).pack(pady=10)
     tk.Button(upload_window, text="Cancel", command=upload_window.destroy).pack(pady=5)
